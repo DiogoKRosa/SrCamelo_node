@@ -399,7 +399,7 @@ app.get("/pagamento/:forma?", checkAuth, async(req, res)=>{
     var forma = req.params.forma
     req.session.pedido.forma = forma
     var data = new Date()
-    req.session.pedido.data = data.toLocaleString('pt-BR')
+    req.session.pedido.data = data
     var cartoes = await Cartao.consultarCartoes(req.session.cpf).then(obj=>{
         return obj
     })
