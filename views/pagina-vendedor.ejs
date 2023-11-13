@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendedor</title>
+</head>
+<body>
+    <div class="wrapper-dinamico">
+        <%- include('partials/header.ejs') %>
+        <div class="fundo-branco">
+            <%if(tipo=='cliente'){%> <a onclick="history.back()" class="voltar">Voltar</a> <%}%>
+            <div class="pagina-vendedor">
+                <div id="informacao-vendedor">
+                    <div id="imagem-vendedor" style="background-image: url(/<%=dados.imagem%>); background-size: auto 100%;"></div>
+                    <div>
+                        <h2 id="nome-vendedor"><%= dados.nome %></h2>
+                        <p>Telefone: <%= dados.telefone %></p>
+                        <p>Email: <%= dados.email %></p>
+                    </div>
+                </div>
+                <div id="produtos">
+                    <h3>Produtos</h3>
+                    <div id="lista-produtos">
+                        <% produtos.forEach(row=>{ %>
+                        <div class="produto">
+                            <img class="imagem-produto" src="/<%=row.imagem%>" width="142px" height="92px">
+                            <div class="dados-produto">
+                                <p><b><%= row.nome%></b></p>
+                                <p>Preço: R$<%= row.preco %></p>
+                                <p><%= row.descricao%></p>
+                            </div>
+                        </div>
+                        <%}) %>
+                    </div>
+                </div>
+                <div id="forma-pagamentos">
+                    <h3>Tipos de pagamentos aceitos</h3>
+                    <div class="grupo-pagamento">
+                        <% dados.pagamento.forEach(row=>{ %>
+                            <div class="card-pagamento">
+                                <img src="/images/<%= row %>.png">
+                                <p><%= row %></p>
+                            </div>
+                        <% }) %>
+                    </div>
+                </div>
+                <% if(tipo == 'cliente'){ %>
+                <div id="botoes">
+                    <button class="btn-logar-laranja" onclick="location.href='/mapa'">Localizar</button>
+                    <button class="btn-logar-laranja" onclick="location.href='/pedido/<%=dados.cpf%>'">Pedir</button>
+                </div>
+                <%}%>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

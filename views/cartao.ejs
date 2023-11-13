@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dados Cadastrais</title>
+    <style>
+    </style>
+</head>
+<body>
+    <div class="wrapper-dinamico">
+        <%-include('./partials/header.ejs')%>
+        <div class="fundo-branco">
+            <h2>Cartões</h2>
+            <form method="post" action="/cartao/<%if(editarCartao){%>atualizar/<%=editarCartao._id%><%}else{%>adicionar<%}%>" class="form-cartao">
+                <input class="input-editar" type="text" name="nCartao" placeholder="Número do Cartão" id="cartao" value="<%if(editarCartao){%><%=editarCartao.numero%><%}else{%><%}%>" maxlength="19" required>
+                <input class="input-editar" type="text" name="dataValidade" placeholder="Data de Validade - MM/AA" id="data" maxlength="5" value="<%if(editarCartao){%><%=editarCartao.validade%><%}else{%><%}%>" required>
+                <input class="input-editar" type="text" name="titular" placeholder="Titular do Cartão" value="<%if(editarCartao){%><%=editarCartao.titular%><%}else{%><%}%>" required>
+                <button id="add-cartao"><img src="/images/<%if(editarCartao){%>done<%}else{%>plus<%}%>-white.png"></button>
+            </form>
+                <div class="cartoes-adicionados">
+                    <h2>Cartões Adicionados</h2>
+                    <% cartoes.forEach(cartao=>{ %>
+                    <form method="POST">
+                        <div class="card-cartao">
+                            <label>Nome Titular: <%=cartao.titular%></label>
+                            <input id="deletar-cartao" type="image" src="/images/close-laranja.png" formaction='/cartao/deletar/<%=cartao._id%>'">
+                            <label>N° do Cartão: **** **** **** <%=cartao.numero.slice(-4)%></label>
+                            <input id="editar-cartao" type="image"  src="/images/edit-laranja.png" formaction='/cartao/editar/<%=cartao._id%>'">
+                        </div>
+                    </form>
+                    <hr width="300px">
+                    <% }) %>
+                </div>
+            <button style="margin-top: 51px;" class="btn-logar-laranja" onclick="location.href='/pagina-principal'">Finalizar</button>
+        </div>
+    </div>
+    <script>
+        const cartao = document.querySelector("#cartao");
+
+        cartao.addEventListener("keypress", () => {
+        let value = cartao.value.replace(/[^0-9]/g, "").replace(/^([\d]{4})([\d]{4})?([\d]{4})?([\d]{4})?/, "$1 $2 $3 $4");
+        cartao.value = value;
+        });
+        const data = document.querySelector("#data");
+
+        data.addEventListener("keypress", () => {
+        let value = data.value.replace(/[^0-9]/g, "").replace(/^([\d]{2})([\d]{2})?/, "$1/$2");
+        data.value = value;
+        });
+    </script>
+</body>
+</html>

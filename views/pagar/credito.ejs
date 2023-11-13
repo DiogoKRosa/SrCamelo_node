@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendedor</title>
+</head>
+<body>
+    <div class="wrapper-dinamico">
+        <%- include('../partials/header.ejs') %>
+        <div class="fundo-branco">
+            <a onclick="history.back()" class="voltar">Voltar</a>
+            <h2>Forma de Pagamento</h2>
+            <h3 id="total">Total: R$ <%= total %></h3>
+            <div class="card-pagamento" style="background-color: #5CAC0E;">
+                <img src="/images/debito.png">
+                <p>Crédito</p>
+            </div>
+            <h2 style="margin-top: 52px;">Selecionar Cartão</h2>
+            <% cartoes.forEach(cartao=>{%>
+            <div class="card-cartao">
+                <div id="texto-cartao">
+                    <label>Nome Titular: <%=cartao.titular%></label>
+                    <label>N° do Cartão: **** **** **** <%=cartao.numero.slice(-4)%></label>
+                </div>
+                <div>
+                    <input type="radio" name="cartao">
+                </div>
+            </div>
+            <hr width="306px">
+            <%})%>
+            <input class="input" style="width: 50px;" type="text" placeholder="CVV">
+            <button style="margin-top: 76px;" class="btn-logar-laranja" onclick="location.href='/add-pedido'">Finalizar Pedido</button>
+        </div>
+    </div>
+</body>
+</html>

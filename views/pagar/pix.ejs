@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendedor</title>
+</head>
+<body>
+    <div class="wrapper-dinamico">
+        <%- include('../partials/header.ejs') %>
+        <div class="fundo-branco">
+            <a onclick="history.back()" class="voltar">Voltar</a>
+            <h2>Forma de Pagamento</h2>
+            <h3 id="total">Total: R$ <%= total %></h3>
+            <div class="card-pagamento" style="background-color: #5CAC0E;">
+                <img src="/images/pix.png">
+                <p>Pix</p>
+            </div>
+            <img src="/images/qr-code.png">
+            <h3>Chave Pix: <%= chave %></h3>
+            <button class="btn-logar-laranja" onclick="location.href='/add-pedido'">Finalizar Pedido</button>
+        </div>
+    </div>
+</body>
+</html>

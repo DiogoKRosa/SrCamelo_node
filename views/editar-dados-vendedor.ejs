@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dados Cadastrais</title>
+    <style>
+    </style>
+</head>
+<body>
+    <div class="wrapper-dinamico">
+        <%- include('./partials/header.ejs')%>
+        <div class="fundo-branco">
+            <h2>Editar Perfil</h2>
+            <form id="form-editar" method="POST" action="/dados-cadastrais/<%=dados.tipo%>">
+                <div class="editar-grupo-inputs">
+                    <label>
+                        Nome:
+                        <input class="input-editar" type="text" value="<%=dados.nome%>" name="nome" required>
+                    </label>
+                    <label>
+                        Email:
+                        <input class="input-editar" type="text" value="<%=dados.email%>" name="email" required>
+                    </label>
+                    <label>
+                        Telefone:
+                        <input class="input-editar" type="text" value="<%=dados.telefone%>" name="telefone" id="telefone" maxlength="14" required>
+                    </label>
+                    <div class="editar-input-localidade">
+                        <label>
+                            Cidade:
+                            <input class="input-editar" id="editar-input-cidade" type="text" value="<%=dados.cidade%>" name="cidade" required>
+                        </label>
+                        <label>
+                            UF:
+                            <input class="input-editar" id="editar-input-uf" type="text" value="<%=dados.uf%>" name="uf" required>
+                        </label>
+                    </div>
+                </div>
+                <div class="div-pagamento">
+                    <h3>Formas de pagamento</h3>
+                    <label for="forma-dinheiro" class="container">
+                        <input class="check-pagamento" type="checkbox" id="forma-dinheiro" name="formaPagamento" value="dinheiro" <%if(dados.pagamento.includes('dinheiro')){%>checked<%}%>>
+                        Dinheiro
+                    </label>
+                    <label for="forma-debito" class="container">
+                        <input class="check-pagamento" type="checkbox" id="forma-debito" name="formaPagamento" value="debito" <%if(dados.pagamento.includes('debito')){%>checked<%}%>>
+                        Débito
+                    </label>
+                    <label for="forma-credito" class="container">
+                        <input class="check-pagamento" type="checkbox" id="forma-credito" name="formaPagamento" value="credito" <%if(dados.pagamento.includes('credito')){%>checked<%}%>>
+                        Crédito
+                    </label>
+                    <label for="forma-pix" class="container">
+                        <input class="check-pagamento" type="checkbox" id="forma-pix" name="formaPagamento" value="pix" <%if(dados.pagamento.includes('pix')){%>checked<%}%>> 
+                        Pix
+                    </label>
+                </div>
+                <h3>Alterar Foto</h3>
+                <div class="editar-grupoVisualizacao">
+                    <div class="editar-imagem" style="background-image: url('../<%= dados.imagem %>'); background-size: auto 100%;">
+                        <input class="editar-input-foto" type="file" accept=".png, .jpg" name="banner" onchange="enviarFoto()">
+                    </div>
+                </div>
+                <button style="margin-top: 51px;" class="btn-logar-laranja">Finalizar</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        function enviarFoto(){
+            var Form = window.document.querySelector('form')
+            Form.action = '/editar-banner'
+            Form.enctype = "multipart/form-data"
+            Form.submit()
+        }
+    
+
+        const telefone = document.querySelector("#telefone");
+
+        telefone.addEventListener("keypress", () => {
+        let value = telefone.value.replace(/[^0-9]/g, "").replace(/^([\d]{2})([\d]{5})?([\d]{4})?/, "($1)$2-$3");
+        telefone.value = value;
+        });
+    </script>
+</body>
+</html>

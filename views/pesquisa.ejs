@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historico</title>
+    <style>
+    </style>
+</head>
+<body>
+    <div class="wrapper-dinamico">
+        <%- include('partials/header.ejs') %>
+        <div class="fundo-branco">
+            <a onclick="history.back()" class="voltar">Voltar</a>
+            <h2>Resultados</h2>
+            <div>
+                <% produtos.forEach(row=>{ %>
+                    <div class="produto"  style="display: flex; padding-top: 20px; cursor: pointer;" onclick="location.href='/pagina-vendedor/<%=row.vendedor%>'">
+                        <img class="imagem-produto" src="/<%=row.imagem%>" width="142px" height="92px">
+                        <div class="dados-produto">
+                            <p><b><%= row.nome%></b></p>
+                            <p>Preço: R$<%= row.preco %></p>
+                            <p><%= row.descricao%></p>
+                        </div>
+                    </div>
+                    <%}) %>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

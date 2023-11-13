@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historico</title>
+    <style>
+    </style>
+</head>
+<body>
+    <div class="wrapper-dinamico">
+        <%- include('partials/header.ejs') %>
+        <div class="fundo-branco">
+            <h2>Histórico</h2>
+            <div class="lista-pedidos">
+                <% pedidos.forEach(pedido=>{%>
+                <div class="card-pedido" id="card_<%= pedido._id %>">
+                    <div class="minimize-pedido">
+                        <div class="esquerda">
+                            <div class="<% if(pedido.status=='Pendente'){ %>texto-laranja<%}%>" > <%= pedido.status%></div>
+                            <% if(tipo == 'vendedor'){
+                                var dados = usuarios.filter((usuario) => usuario.cpf == pedido.cliente)
+                                var usuario = 'Cliente'
+                            }else{
+                                var dados = usuarios.filter((usuario) => usuario.cpf == pedido.vendedor)
+                                var usuario = 'Vendedor'
+                            } %>
+                            <div><%= usuario %>: <%= dados[0].nome %></div>
+                            <div>Tel: <%= dados[0].telefone %></div>
+                        </div>
+                        <div class="direita">
+                            <div><%= pedido.data.toLocaleString('pt-BR') %></div>
+                            <div>R$ <%= pedido.valor %></div>
+                            <div onclick="expand( '<%= pedido._id %>', '<%= pedido.status%>', <%= pedido.valor %>, <%=pedido.produtos%>)" class="btn-expand">Detalhes ></div>
+                        </div>
+                    </div>
+                </div>
+                <%})%>
+            </div>
+        </div>
+    </div>
+    <script>
+        function expand(id, status, total, ...produtos){
+            const parent = document.getElementById('card_'+id)
+            var div = document.querySelector('#card_'+id+' .expand-pedido')
+            if(div){
+                parent.removeChild(div)
+            }else{
+                var div = document.createElement('div')
+                div.classList.add("expand-pedido")
+                div.innerHTML = `<div class="conteudo">
+                            <p>Pedido</p>`
+
+                produtos.forEach(produto=>{
+                    div.innerHTML += `<p> ${produto.nome} -  ${produto.qtde}un - R$${produto.valor} </p>`
+                })
+                div.innerHTML += `<p> Total: ${total.toLocaleString('pt-br', {style: 'currency', currency: 'BRL'})} </p>`
+                div.innerHTML += '</div>'
+                var tipo = '<%= tipo %>'
+
+                if(status == 'Pendente'){
+                    if(tipo == 'vendedor'){
+                        div.innerHTML += `<button class="btn-editar-pedido" onclick="location.href='/atualizar-pedido/Entregue?cod=${id}'">Entregar</button>`
+                    }
+                    div.innerHTML += `<button class="btn-editar-pedido" onclick="location.href='/atualizar-pedido/Cancelado?cod=${id}'">Cancelar</button>`
+                }
+                parent.appendChild(div)
+            }
+        }
+
+    </script>
+</body>
+</html>

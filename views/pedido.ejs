@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendedor</title>
+    <style>
+        
+    </style>
+</head>
+<body>
+    <div class="wrapper-dinamico">
+        <%- include('partials/header.ejs') %>
+        <div class="fundo-branco">
+            <a onclick="history.back()" class="voltar">Voltar</a>
+            
+            <h2 class="texto-centro">Pedido</h2>
+            <form id="lista-produtos" method="POST">
+                <% produtos.forEach(produto=>{ %>
+                <div class="pedido-produto">
+                    <h3 class="titulo-produto" id="nome_<%=produto._id%>"><%=produto.nome%></h3>
+                    <div class="img-produto" style="background-image: url(/<%=produto.imagem%>); ">
+                        <!-- <img src="/1698616607164_2.jpg" width="auto" height="100%" draggable="false"> -->
+                    </div>
+                    <label class="preco-produto">Preço Unit.: R$ <label id="valor_<%= produto._id %>"><%=produto.preco%></label></label>
+                    <label class="texto-produto">Quantidade:</label>
+                    <div class=qtd-produto style="display: flex;">
+                        <div class="menor"><img src="/images/diminuir.svg" onclick="subtract('<%= produto._id %>')"></div>
+                        <input type="number" class="qtde-produto" value="0" min="0" name="<%= produto._id %>" onchange="total()">
+                        <div class="maior"><img src="/images/aumentar.svg" onclick="add('<%= produto._id %>')"></div>
+                    </div>
+                </div>
+                <hr width="290px" color="#FF6700">
+                <%})%>
+            </form>
+            <h3 id="total" class="texto-centro">Total: R$</h3>
+            <button class="btn-logar-laranja" onclick="nextPage()">Próximo</button>
+            
+        </div>
+    </div>
+    <script>
+        function add(id){
+         
+            var input = window.document.getElementsByName(id)[0]
+            input.value = +input.value + 1
+            total()
+        }
+        function subtract(id){
+            var input = window.document.getElementsByName(id)[0]
+            input.value = +input.value - 1
+            if(+input.value < 0){
+                input.value = 0
+            }
+            total()
+        }
+        function total(){
+            var total = 0
+            var textoTotal = window.document.querySelector(`#total`)
+            
+            var inputs = window.document.querySelectorAll('.qtde-produto')
+            inputs.forEach(input=>{
+                var qtde = +window.document.getElementsByName(input.name)[0].value
+                var valor = +window.document.querySelector(`#valor_${input.name}`).innerText
+                total += qtde*valor
+            })
+
+            textoTotal.innerHTML = `Total: R$ ${total}`
+        }
+
+        function nextPage(){
+            var produtos = []
+            var Form = window.document.querySelector('form#lista-produtos')
+            var inputs = window.document.querySelectorAll('.qtde-produto')
+            Form.action = window.location.pathname
+            Form.action +='?'
+            inputs.forEach(input=>{
+                
+                var nome = window.document.querySelector(`#nome_${input.name}`).innerText
+                var qtde = +window.document.getElementsByName(input.name)[0].value
+                var valor = +window.document.querySelector(`#valor_${input.name}`).innerText
+                if(qtde==0){
+                    return
+                }
+                var produto = {
+                    cod: input.name,
+                    nome: nome,
+                    qtde: qtde,
+                    valor: valor
+                }
+                var json = JSON.stringify(produto);
+                Form.action +='produtos[]='+json+'&'
+            })
+            Form.action.slice(0,-1)
+            Form.submit()
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <link rel="stylesheet" href="/stylesheets/style.css"> 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.25">
+    <title>Mapa</title>
+    <style>
+      body{
+        zoom: 125%;
+      }
+    </style>
+</head>
+<body class="body-mapa">
+  <div class="mapa" id="mapa">
+    <% if(tipo=='cliente'){%>
+      <div class="marcador" id="cliente">
+        <div class="contorno">
+           <div class="ponto"></div>
+        </div>
+        <p>Você</p> 
+      </div>
+      <div class="marcador" id="vendedor">
+        <div class="contorno">
+           <div class="ponto"></div>
+        </div>
+        <p>Leonardo Salgados</p> 
+      </div>
+      <div class="marcador" id="vendedor2">
+        <div class="contorno">
+           <div class="ponto"></div>
+        </div>
+        <p>Doces Maria</p> 
+      </div>
+
+      <%}else if(tipo=='vendedor'){%>
+        <div class="marcador" id="cliente">
+          <div class="contorno">
+             <div class="ponto"></div>
+          </div>
+          <p>Gabriel</p> 
+        </div>
+        <div class="marcador" id="vendedor">
+          <div class="contorno">
+             <div class="ponto"></div>
+          </div>
+          <p>Você</p> 
+        </div>
+        <%}%>
+
+    <div class="grupo-btnMapa">
+      <button class="btn-menuPrincipal">
+        <img src="/images/plus.png">
+      </button>
+    </div>
+  </div>
+    
+  <script>
+    var menuPrincipal = document.querySelector('.btn-menuPrincipal')
+    menuPrincipal.addEventListener("click", ()=>{
+      if('<%= tipo %>'== 'vendedor'){
+        location.href = '/pagina-vendedor'
+      }else{
+        location.href = '/pagina-principal'
+      }
+    })
+
+    var tipo = '<%=tipo%>'
+    document.getElementById(tipo).scrollIntoView({
+      behavior: 'auto',
+      block: 'center',
+      inline: 'center'
+    });
+
+    let clientScrollX = 0;
+    let totalScrollX = 0;
+    let clientScrollY = 0;
+    let totalScrollY = 0;
+    let initialScrollX = 0
+    let initialScrollY = 0
+    
+    var isMouseDown = false;
+    document.onmousedown = function(e1) { 
+      isMouseDown = true  
+      initialScrollX = e1.clientX
+      initialScrollY = e1.clientY
+    };
+    document.onmouseup   = function() { isMouseDown = false };
+    document.onmousemove = function(e1) { if(isMouseDown) { 
+      clientScrollX = e1.clientX;
+      clientScrollY = e1.clientY;
+      updateTotalScroll() } };
+
+    function updateTotalScroll(){
+      totalScrollX = -(clientScrollX - initialScrollX)/10
+      totalScrollY = -(clientScrollY - initialScrollY)/10
+      console.log(totalScrollX+","+ totalScrollY)
+      window.scrollBy(totalScrollX, totalScrollY);
+    }
+  </script>
+</body>
+</html>

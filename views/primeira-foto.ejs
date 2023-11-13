@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <link rel="stylesheet" href="../stylesheets/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Primeiro Acesso</title>
+</head>
+<body>
+    <% if(!dados.foto){
+        var imagem = '../images/plus.png'
+        var tamanho = '24px'
+    }else{
+        var imagem = '../'+ dados.foto
+        var tamanho = 'auto 100%'
+    }
+    %>
+    <div class="wrapper-dinamico">
+        <div class="fundo-branco">
+            <h3>Adicione uma imagem que represente o seu negócio</h3>
+            <div class="grupoVisualizacao">
+                <div class="addImagem" style="background-image: url('<%= imagem %>'); background-size: <%= tamanho %>;">
+                    <form style="width: 100%; height: 100%;" method="POST" enctype="multipart/form-data">
+                        <input class="input-foto" type="file" accept=".png, .jpg" name="banner" onchange="this.form.submit()" formaction="/primeiro-acesso/foto">
+                    </form>
+                </div>
+            </div>
+            <h3>Pré-visualização</h3>
+            <div class="grupoVisualizacao">
+                <div class="divPrevia">
+                    <div class="addImagem" style="background-image: url('<%= imagem %>'); background-size: <%= tamanho %>;"></div>
+                    <div class="textoPrevia">
+                        <h4><%= dados.nome %></h4>
+                        <p>Telefone: <%= dados.telefone %></p>
+                        <p>Email: <%= dados.email %></p>
+                    </div>
+                </div>
+            </div>
+            <div class="div-btn">
+                <button class="btn-logar-laranja" onclick="location.href = '/primeiro-acesso/produto'">Próximo</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

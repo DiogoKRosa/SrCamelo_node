@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+</head>
+<body>
+    <div class="wrapper-dinamico">
+        <div class="fundo-branco">
+            <% if(error!=""){ %>
+                <div>Senha divergente</div>
+            <% } %>
+            <h2 class="titulo-login">Cadastro Consumidor</h2>
+            <img class="icone-login" src="images/icone-logar-verde.png">
+            <form id="form-cliente" action="/cadastro-cliente" method="POST">
+                <input class="input" type="text" placeholder="Nome" name="nome" required>
+                <input class="input" type="text" placeholder="CPF" name="cpf" id="cpf" maxlength="14" required>
+                <input class="input" type="text" placeholder="Email" name="email" required> 
+                <input class="input" type="text" placeholder="Telefone" name="telefone" maxlength="14" id="telefone" required>
+                <input class="input" type="password" placeholder="Senha" name="senha" required>
+                <input class="input" type="password" placeholder="Confirmar Senha" name="senhaConf" required>
+                <div class="div-input-localidade">
+                    <input class="input" id="input-cidade" type="text" placeholder="Cidade" name="cidade" required>
+                    <input class="input" id="input-uf" type="text" placeholder="UF" name="uf" required>
+                </div>
+                <input class="btn-logar-laranja" type="submit" value="Cadastrar-se">
+            </form>
+            <div class="div-link">
+                <a class="link-cadastro-verde" href="/cadastro-vendedor">Sou Vendedor</a>
+                <a class="link-cadastro-verde" href="/logar">Já tenho uma conta</a>
+            </div>
+        </div>
+    </div>
+    <script>
+        const cpf = document.querySelector("#cpf");
+
+        cpf.addEventListener("keypress", () => {
+        let value = cpf.value.replace(/[^0-9]/g, "").replace(/^([\d]{3})([\d]{3})?([\d]{3})?([\d]{2})?/, "$1.$2.$3-$4");
+        cpf.value = value;
+        });
+
+        const telefone = document.querySelector("#telefone");
+
+        telefone.addEventListener("keypress", () => {
+        let value = telefone.value.replace(/[^0-9]/g, "").replace(/^([\d]{2})([\d]{5})?([\d]{4})?/, "($1)$2-$3");
+        telefone.value = value;
+        });
+    </script>
+</body>
+</html>

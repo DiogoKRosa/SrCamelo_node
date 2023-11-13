@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <link rel="stylesheet" href="../stylesheets/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+</head>
+<body>
+    <% if(!cadastro.imagem){
+        var imagem = '../images/plus.png'
+        var tamanho = '24px'
+    }else{
+        var imagem = '../'+ cadastro.imagem
+        var tamanho = 'auto 100%'
+    }
+    %>
+    <div class="wrapper-dinamico">
+        <div class="fundo-branco">
+            <h2>Cadastrar Produtos</h2>
+            <form method="POST" action="/primeiro-acesso/produto">
+                <div class="row">
+                    <div class="add-foto-produto" style="background-image: url('<%= imagem %>'); background-size:<%=tamanho%>;">
+                        <input class="input-foto" type="file" accept=".png, .jpg" name="produto" onchange="enviarFoto()">
+                    </div>
+                    <div class="grupo-input-produtos">
+                        <input class="input-produto" type="text" placeholder="Nome do produto" name="nome" value="<%= cadastro.nome %>">
+                        <input class="input-produto" type="text" placeholder="Preço" name="preco" value="<%= cadastro.preco %>" >
+                        <textarea class="desc-produto" placeholder="Breve descrição do produto..." name="desc"><%= cadastro.descricao %></textarea>
+                        <select class="input-produto" name="categoria">
+                            <option autofocus>Categoria</option>
+                            <option>Salgado</option>
+                            <option>Bebidas</option>
+                            <option>Doces</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="btn-add-produto">
+                    <div>
+                        <input type="image" src="/images/plus-white.svg" onclick="this.form.submit()">
+                    </div>
+                </div>
+            </form>
+            <% if(dados){dados.forEach(row=>{ %>
+                <div class="row">
+                    <div class="add-foto-produto" style="background-image: url('../<%= row.imagem %>'); background-size: auto 100%;"></div>
+                    <div class="grupo-input-produtos">
+                        <input class="input-produto" type="text" placeholder="Nome do produto" value="<%= row.nome %>" readonly>
+                        <input class="input-produto" type="text" placeholder="Preço" value="<%= row.preco %>" readonly>
+                        <textarea class="desc-produto" placeholder="Breve descrição do produto..." readonly><%= row.descricao %></textarea>
+                        <input class="input-produto" type="text" value="<%= row.categoria %>" readonly>
+                    </div>
+                    <div class="btn-delete-produto">
+                        <input type="image" src="/images/close-verde.svg" onclick="location.href='/primeiro-acesso/deletar-produto/<%= row._id %>'">
+                        <br>
+                        <input type="image" src="/images/edit-verde.svg" onclick="location.href='/primeiro-acesso/editar-produto/<%= row._id %>'">
+                    </div>
+                </div>
+            <% })} %>
+            <div class="div-btn">
+                <button class="btn-logar-laranja" onclick="location.href='/mapa'">Finalizar</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        function enviarFoto(){
+            var Form = window.document.querySelector('form')
+            Form.action = '/primeiro-acesso/inserir-foto-produtos'
+            Form.enctype = "multipart/form-data"
+            Form.submit()
+        }
+
+        function setOption(selectElement, value) {
+            var options = selectElement.options;
+            for (var i = 0, optionsLength = options.length; i < optionsLength; i++) {
+                if (options[i].value == value) {
+                    selectElement.selectedIndex = i;
+                    return true;
+                }
+            }
+        return false;
+        }
+        setOption(window.document.querySelector('select.input-produto'), '<%= cadastro.categoria %>');
+    </script>
+</body>
+</html>

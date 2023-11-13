@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendedor</title>
+</head>
+<body>
+    <div class="wrapper-dinamico">
+        <%- include('partials/header.ejs') %>
+        <div class="fundo-branco">
+            <a onclick="history.back()" class="voltar">Voltar</a>
+            <h2>Pedido</h2>
+            <%var total = 0 
+            produtos.forEach(produto=>{%>
+                <%var obj = JSON.parse(produto)
+                 total += obj.qtde * obj.valor%>
+                <p><%=obj.nome%> - <%=obj.qtde%>un - R$<%=obj.valor%></p>
+            <%})%>
+            <h3 id="total">Total: R$ <%= total %></h3>
+            <button class="btn-logar-laranja" onclick="location.href='/pagamento?total=<%=total%>'">Próximo</button>
+        </div>
+    </div>
+</body>
+</html>

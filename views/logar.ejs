@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <link rel="stylesheet" href="stylesheets/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="fundo-branco">
+            <% if(erro){ %>
+                <div> <%= erro %> </div>
+            <% } %>
+            <h1 class="titulo-login">Login</h1>
+            <img class="icone-login" src="/images/icone-logar-verde.png" >
+            <form class="form-login" action="/logar" method="POST">
+                <input class="input" type="text" placeholder="CPF" name="cpf" id="cpf" maxlength="14">
+                <input class="input" type="password" placeholder="Senha" name="senha">
+                <div class="div-btn">
+                    <button class="btn-logar-laranja" >Logar</button>
+                    <a class="link-cadastro" href="/cadastro">Não tenho uma conta</a>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>    
+        const cpf = document.querySelector("#cpf");
+
+        cpf.addEventListener("keypress", () => {
+        let value = cpf.value.replace(/[^0-9]/g, "").replace(/^([\d]{3})([\d]{3})?([\d]{3})?([\d]{2})?/, "$1.$2.$3-$4");
+        cpf.value = value;
+        });
+    </script>
+</body>
+</html>

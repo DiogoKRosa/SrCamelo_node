@@ -1,0 +1,45 @@
+<div class="header">
+    <img id="abrir-menu" src="/images/menu.png" width="22px" height="15px">
+    <% if(tipo == 'cliente'){ %>
+    <div class="div-pesquisa">
+        <form class="pesquisa" method="post" action="/pesquisa">
+            <input type="text" placeholder="Pesquise Aqui..." name="pesquisa" required>
+            <button style="all: unset;"><img src="/images/lupa.png" style="cursor: pointer;" onclick=""></button>
+        </form>
+    </div>
+    <% }%>
+</div>
+<nav class="menu-navegacao">
+    <div class="opcoes">
+        <img id="fechar-menu" src="/images/close-white.png" width="18px" height="18px" style="cursor: pointer;">
+        <% if(tipo == 'vendedor'){ %>
+            <a href="/mapa">Mapa</a>
+            <a href="/pagina-vendedor">Menu Principal</a>
+            <a href="/historico/vendedor">Vendas</a>
+            <a href="/dados-cadastrais/vendedor">Dados Cadastrais</a>
+            <a href="/produtos">Produtos</a>
+            <a href="/#">Sobre</a>
+            <a href="/logout">Sair</a>
+        <% }else{%>
+            <a href="/mapa">Mapa</a>
+            <a href="/pagina-principal">Menu Principal</a>
+            <a href="/historico/cliente">Pedidos</a>
+            <a href="/dados-cadastrais/cliente">Dados Cadastrais</a>
+            <a href="/cartao">Cartão</a>
+            <a href="/#">Sobre</a>
+            <a href="/logout">Sair</a>
+        <%}%>
+    </div>
+</nav>
+<script>
+    var abrirMenu = document.querySelector('#abrir-menu')
+    var fecharMenu = document.querySelector('#fechar-menu')
+    var menu = document. querySelector('.menu-navegacao')
+
+    abrirMenu.addEventListener("click", ()=>{
+        menu.style.display = 'block'
+    })
+    fecharMenu.addEventListener("click", ()=>{
+        menu.style.display = 'none'
+    })
+</script>

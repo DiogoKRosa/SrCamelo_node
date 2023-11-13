@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Principal</title>
+</head>
+<body>
+    <div class="wrapper-dinamico">
+        <%- include('./partials/header.ejs')%>
+        <div class="fundo-branco">
+            <div class="vendedores-proximos">
+                <h3 class="titulo-pagina">Vendedores próximos de você</h3>
+                <div class="grupo-vendedores-proximos">
+                    <% var n = 0
+                    vendedores.forEach(vendedor=>{ 
+                        n+=100    %> 
+                    <div class="card-vendedores-proximos">
+                        <div class="img-proximo" style="background-image: url(/<%=vendedor.imagem %>)" onclick="location.href='/pagina-vendedor/<%=vendedor.cpf%>'"></div>
+                        <label><%=vendedor.nome%></label>
+                        <label><%=n%>m</label>    
+                    </div>
+                    <% }) %>
+                </div>
+            </div>
+            <div>
+                <h3 class="titulo-pagina">Histórico</h3>
+                <div class="vendedores-historico">
+                    <div class="grupo-vendedores-historico">
+                        <% historico.forEach(vendedor=>{ %> 
+                            <div class="card-vendedores-historico">
+                                <div class="img-historico" style="background-image: url(/<%=vendedor.imagem%>);"></div>
+                                <label><%=vendedor.nome%></label>    
+                            </div>
+                        <% }) %>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <h3 class="titulo-pagina texto-centro">Categorias</h3>
+                <div class="categorias">
+                    <div class="card-categoria" onclick="location.href='/pesquisa?categoria=Salgado'">
+                        <div class="imagem-categoria" style="background-image: url(/images/salgados.jpg);"></div>
+                        <label>Salgado</label>
+                    </div>
+                    <div class="card-categoria" onclick="location.href='/pesquisa?categoria=Bebidas'">
+                        <div class="imagem-categoria" style="background-image: url(/images/bebidas.jpg);"></div>
+                        <label>Bebidas</label>
+                    </div>
+                    <div class="card-categoria" onclick="location.href='/pesquisa?categoria=Doces'">
+                        <div class="imagem-categoria" style="background-image: url(/images/doces.jpg);"></div>
+                        <label>Doces</label>
+                    </div>
+                    <div class="card-categoria " onclick="location.href='/pesquisa?categoria=Bijuteria'">
+                        <div class="imagem-categoria" style="background-image: url(/images/bijuteria.jpg);"></div>
+                        <label>Bijuterias</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
